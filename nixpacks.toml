@@ -1,0 +1,18 @@
+[phases.setup]
+# ставим всё нужное для сборки frontend (yarn) и backend (go), плюс make
+nixPkgs = ["nodejs_20", "yarn", "go_1_22", "gnumake", "gcc", "pkg-config", "git"]
+
+[phases.install]
+# гарантируем yarn classic 1.x, если вдруг corepack выключен
+cmds = [
+  "corepack enable",
+  "corepack prepare yarn@1.22.19 --activate"
+]
+
+[phases.build]
+# у тебя и так вызывается make prod — оставляем
+cmds = ["make prod"]
+
+[start]
+# бинарь после сборки лежит здесь
+cmd = "./build/prod/commento"
